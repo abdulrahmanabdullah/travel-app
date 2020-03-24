@@ -138,5 +138,14 @@
             </div>
         </div>
     </div>
+
+    <script>
+       //Check service work exist or not .
+       if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./service-worker.js')
+            })
+        }
+    </script>
   </body>
 </html>

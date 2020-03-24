@@ -9,7 +9,7 @@
       rel="stylesheet"
     />
     <title>Travel app</title>
-  </head>
+  <link href="main.css" rel="stylesheet"></head>
 
   <body>
     <!-- Navbar -->
@@ -138,5 +138,15 @@
             </div>
         </div>
     </div>
+
+    <script>
+       //Check service work exist or not .
+       if ('serviceWorker' in navigator) {
+            console.log('yes');
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./service-worker.js')
+            })
+        }
+    </script>
   <script type="text/javascript" src="main.bundle.js"></script></body>
 </html>

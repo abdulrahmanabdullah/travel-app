@@ -1,5 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 module.exports = {
   entry: './src/client/index.js',
   mode: 'production',
@@ -12,7 +14,7 @@ module.exports = {
       // Style rules
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
       // JS Rules
       {
@@ -27,6 +29,12 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/client/view/index.html',
       filename: './index.html',
+    }),
+    new MiniCssExtractPlugin(),
+    new WorkboxPlugin.GenerateSW({
+      swDest: 'service-worker.js',
+      clientsClaim: true,
+      skipWaiting: true,
     }),
   ],
 };
