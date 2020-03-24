@@ -26,8 +26,8 @@ const searchFlights = () => {
           //TODO:: create function to catch store from response to create table with values.
           M.toast({ html: 'Great wait a second please.' });
           console.log(store);
-          //   showTripDetails(store);
-          createTripCard(store);
+          createTripCard(true);
+          showTripDetails(store);
         }
       });
     }
@@ -35,36 +35,51 @@ const searchFlights = () => {
   });
 };
 function showTripDetails(store) {
-  const cardDetails = document.querySelector('.card-details');
-  cardDetails.style.display = 'block';
+  // Get trip info
   const { origin, destination, dateDeparture } = store[0];
-  const { img_res } = store[2];
-  console.log(dateDeparture, origin, destination);
+  // Get weather object
+  const {
+    time,
+    apparentTemperature,
+    summary,
+    cloudCover,
+    temperature,
+    dewPoint,
+  } = store[1];
+  //Get image object
+  const { img_res } = store[3];
   const tripImg = document.querySelector('.trip-img');
-  tripImg.src = '';
   tripImg.src = img_res;
   tripImg.alt = destination;
-  const originResult = document.querySelectorAll('.origin-result');
-  originResult.forEach(value => {
-    value.innerHTML = origin;
-  });
-  const departingResult = document.querySelectorAll('.departing-result');
-  departingResult.forEach(value => {
-    value.innerHTML = destination;
-  });
-  const departingDate = document.querySelector('.departing-date-result');
-  departingDate.innerHTML = dateDeparture;
+  const originResult = document.querySelector('.origin-result');
+  originResult.innerHTML = `Your trip: ${origin} To ${destination}`;
+  const departingUI = document.querySelector('.departing-date-result');
+  const weatherDetails = document.querySelector('.weather-details');
+  weatherDetails.innerHTML = `Typical weather for then is :
+    <br/>Time : ${covertTimezone(time)} <br/>
+  <span>High:${temperature}</span> - <span>Low:${dewPoint}</span><br/> and summary ${summary}`;
+  departingUI.innerHTML = `Departing at ${dateDeparture}`;
   const saveTripBtn = document.querySelector('.save-trip');
   const removeTripBtn = document.querySelector('.remove-trip');
-  const calcDest = document.querySelector('.calc-dest');
-  const tempHigh = document.querySelector('.temp-high');
-  const tempLow = document.querySelector('.temp-low');
-  const tempCloud = document.querySelector('.temp-cloud');
 }
-
-function createTripCard(store) {
+function covertTimezone(timezone) {
+  return new Date(timezone * 1000)
+    .toISOString()
+    .slice(10, 19)
+    .replace('T', ' ');
+}
+// check if any trips in local storage .
+function createMainCard(element) {
+  // if data in local storage call create trip func
+  // else create new one
+  if (true) {
+  }
+}
+function createTripCard(isNewTrip) {
   const cardEntry = document.querySelector('.card-entry');
-
+  if (isNewTrip) {
+    cardEntry.innerHTML = '';
+  }
   const mainCard = document.createElement('div');
   mainCard.classList.add('card-panel');
   const gridInCard = document.createElement('div');
@@ -104,6 +119,7 @@ function createTripCard(store) {
     'btn-small',
     'save-trip'
   );
+  saveTripButton.innerHTML = 'Save Trip';
   const removeTripButton = document.createElement('button');
   removeTripButton.classList.add(
     'waves-effect',
@@ -111,6 +127,7 @@ function createTripCard(store) {
     'btn-small',
     'remove-trip'
   );
+  removeTripButton.innerHTML = 'Remove Trip';
   //Inject buttons into buttonsSection
   buttonsSection.append(saveTripButton);
   buttonsSection.append(removeTripButton);
