@@ -17,7 +17,7 @@ const searchFlights = () => {
         if (status === 200) {
           M.toast({ html: 'Great wait a second please.' });
           console.log(store);
-          createTripCard(true);
+          createTripCard();
           showTripDetails(store);
         }
       });

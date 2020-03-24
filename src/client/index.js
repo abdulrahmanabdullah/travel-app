@@ -7,7 +7,6 @@ import './js/materialUIFunctions';
 import { searchFlights } from './js/searchFlights';
 import { createTripCard } from './js/cardDOM';
 import { showTripDetails } from './js/cardDetails';
-searchFlights();
 
 document.addEventListener('DOMContentLoaded', () => {
   console.log('loaded');
@@ -16,8 +15,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const store = localStorage.getItem(item);
     const data = JSON.parse(store);
     if (localStorage.getItem(data[0].destination) !== null) {
-      createTripCard(true);
+      createTripCard();
       showTripDetails(data);
     }
   }
 });
+
+searchFlights();

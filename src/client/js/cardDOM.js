@@ -94,11 +94,9 @@ function rowSection() {
   colDetails.append(rowAndFlowText);
   return colDetails;
 }
-function createTripCard(isNewTrip) {
+function createTripCard() {
   const cardEntry = document.querySelector('.card-entry');
-  if (isNewTrip) {
-    cardEntry.innerHTML = '';
-  }
+  document.querySelector('.no-trips-msg').innerHTML = ''; // Remove 'no trip yet '
   // Create card.
   mainCardSection(cardEntry);
 }
