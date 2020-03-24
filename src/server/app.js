@@ -10,6 +10,6 @@ app.use(cors());
 // set default folder
 app.use(express.static('dist'));
 // Router
-app.use('/', require('./route/api'));
+app.use('/', require('./route/router'));
 
 module.exports = app;

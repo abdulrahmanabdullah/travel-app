@@ -1,30 +1,62 @@
-const express = require('express');
 const fetch = require('node-fetch');
-const router = express.Router();
-const dotenv = require('dotenv');
 
-//Access .env file .
-dotenv.config();
-
-// Main route to index.html
-router.get('/', (req, res) => {
-  res.send('/dist/');
-});
 //Extract all countries then send it to getCountries in front page.
-async function getCountries() {
+const getCountries = async () => {
   const response = await fetch('https://restcountries.eu/rest/v2/all');
   return await response.json();
-}
+};
 
-// Convert date to get unix timestamp .
 const getTimestamp = date => {
   return new Date(date).getTime() / 1000;
 };
 
 /**
+ * @param {string} target specific country
+ */
+
+async function getLatLng(target) {
+  const response = await fetch(
+    `http://api.geonames.org/search?q=${target}&username=${process.env.USERNAME}&type=json`
+  );
+  const data = await response.json();
+  const { geonames } = await data; //  lat,lng live in geonames so extract it
+  return await geonames[0]; // return first object in geonames array.
+}
+
+/**
+ * Pass lat, lng and date arrive which came from getWeather func
+ * @param {string} lat
+ * @param {string} lng
+ * @param {string} timestamp
+ */
+
+async function getWeather(lat, lng, timestamp) {
+  // Call currently weather
+  const res = await fetch(
+    `https://api.darksky.net/forecast/${process.env.DARK_SKY_KEY}/${lat},${lng},${timestamp}?exclude=daily,flags,hourly`
+  );
+  return await res.json();
+}
+
+/**
+ * @param {string} city = trip destination
+ *  */
+
+async function getImage(city) {
+  const response = await fetch(
+    `https://pixabay.com/api/?key=${process.env.PIXABAY_KEY}&q=${city}&image_type=photo&pretty=true`
+  );
+  const data = await response.json();
+  const { hits } = await data;
+  const { webformatURL } = await hits[0];
+  return await webformatURL;
+}
+
+/**
  * @param {object} allDate catch origin,destination,dateArrive and time then send it to
  * @see [getLatLng,getWeather,getImage]  promise func .
  */
+
 async function extractDataFromApi(allData) {
   let arr = [];
   const { destination, dateArrive } = allData;
@@ -51,56 +83,4 @@ async function extractDataFromApi(allData) {
     })
     .catch(err => arr.push({ err }));
 }
-/**
- * @param {string} target specific country
- */
-async function getLatLng(target) {
-  const response = await fetch(
-    `http://api.geonames.org/search?q=${target}&username=${process.env.USERNAME}&type=json`
-  );
-  const data = await response.json();
-  const { geonames } = await data; //  lat,lng live in geonames so extract it
-  return await geonames[0]; // return first object in geonames array.
-}
-/**
- * Pass lat, lng and date arrive which came from getWeather func
- * @param {string} lat
- * @param {string} lng
- * @param {string} timestamp
- */
-async function getWeather(lat, lng, timestamp) {
-  // Call currently weather
-  const res = await fetch(
-    `https://api.darksky.net/forecast/${process.env.DARK_SKY_KEY}/${lat},${lng},${timestamp}?exclude=daily,flags,hourly`
-  );
-  return await res.json();
-}
-/**
- * @param {string} city = trip destination
- *  */
-async function getImage(city) {
-  const response = await fetch(
-    `https://pixabay.com/api/?key=${process.env.PIXABAY_KEY}&q=${city}&image_type=photo&pretty=true`
-  );
-  const data = await response.json();
-  const { hits } = await data;
-  const { webformatURL } = await hits[0];
-  return await webformatURL;
-}
-// Get countries route, Call this in client/js/getCountries
-router.get('/countries', (req, res) => {
-  getCountries().then(response => res.send(response));
-});
-
-//Receive data from client/js/searchFlight
-router.post('/add_data', (req, res) => {
-  const data = req.body;
-  extractDataFromApi(data)
-    .then(store => {
-      return res.json({ status: 200, store });
-    })
-    .catch(err => res.json({ message: err }));
-});
-router.get('/test', (req, res) => res.json('Its working bro'));
-
-module.exports = router;
+module.exports = { getCountries, extractDataFromApi };
