@@ -96,6 +96,7 @@ function rowSection() {
 }
 function createTripCard() {
   const cardEntry = document.querySelector('.card-entry');
+  cardEntry.innerHTML = ''; // remove pervious  result.
   document.querySelector('.no-trips-msg').innerHTML = ''; // Remove 'no trip yet '
   // Create card.
   mainCardSection(cardEntry);

@@ -6,7 +6,7 @@ function covertTimezone(timezone) {
 }
 export function showTripDetails(store) {
   // Get trip info
-  const { origin, destination, dateDeparture } = store[0];
+  const { origin, destination, dateDeparture, dateArrive } = store[0];
   // Get weather object
   const { time, summary, cloudCover, temperature, dewPoint } = store[1];
   //Get image object

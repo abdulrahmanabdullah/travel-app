@@ -24,6 +24,6 @@ router.post('/add_data', (req, res) => {
     })
     .catch(err => res.json({ message: err }));
 });
-router.get('/test', (req, res) => res.json('Its working bro'));
+router.get('/test', (req, res) => res.json('Its work bro'));
 
 module.exports = router;
