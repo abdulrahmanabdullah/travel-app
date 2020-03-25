@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const dotenv = require('dotenv');
+const path = require('path');
 const { getCountries, extractDataFromApi } = require('./api');
 
 //Access .env file .
@@ -8,7 +9,7 @@ dotenv.config();
 
 // Main route to index.html
 router.get('/', (req, res) => {
-  res.send('/dist/');
+  res.send(path.resolve(__dirname, '/dist/'));
 });
 // Get countries route, Call this in client/js/getCountries
 router.get('/countries', (req, res) => {
