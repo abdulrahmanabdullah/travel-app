@@ -1,7 +1,4 @@
-// const api = `http://api.geonames.org/search?q=${country}&username=${username}&type=json`;
-// const apiDarkSky = `https://api.darksky.net/forecast/${key}/${lat},${lang}`;
-
-async function getCountries(object = {}) {
+export const getCountries = async (object = {}) => {
   try {
     const response = await fetch('http://localhost:3003/countries');
     const data = await response.json();
@@ -11,6 +8,4 @@ async function getCountries(object = {}) {
   } catch (err) {
     console.log(err);
   }
-}
-
-export { getCountries };
+};

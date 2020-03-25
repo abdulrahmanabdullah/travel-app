@@ -1,6 +1,6 @@
 import { validateInput } from './validateInput';
 
-const checkerInput = () => {
+export const checkerInput = () => {
   const inputs = document.querySelectorAll('.input-info');
   let arrInputs = []; // Check input value with every
   let inputObject = {}; // Send key and value to request body inside searchFlight func.
@@ -10,4 +10,3 @@ const checkerInput = () => {
   });
   return arrInputs.every(validateInput) ? inputObject : null;
 };
-export { checkerInput };

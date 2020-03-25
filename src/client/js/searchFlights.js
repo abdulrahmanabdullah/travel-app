@@ -16,15 +16,20 @@ const searchFlights = () => {
     } else if (!compareDate(data.dateArrive, data.dateDeparture)) {
       M.toast({ html: 'Please enter correct date ' });
     } else {
-      sendData(data).then(res => {
-        const { status, store } = res;
-        if (status === 200) {
-          M.toast({ html: 'Great wait a second please.' });
-          console.log(store);
-          createTripCard();
-          showTripDetails(store);
-        }
-      });
+      sendData(data)
+        .then(res => {
+          const { status, store } = res;
+          if (status === 200) {
+            M.toast({ html: 'Great wait a second please.' });
+            createTripCard();
+            showTripDetails(store);
+          }
+        })
+        .catch(err => {
+          M.toast({
+            html: `some error ocurred please try again, ${err.message}`,
+          });
+        });
     }
     e.preventDefault();
   });

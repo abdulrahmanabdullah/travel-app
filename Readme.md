@@ -7,6 +7,10 @@ Build this app with material design system with [materialize-library](https://ma
 
 Not any dependencies, full app wrote by valine JS.
 
+# Features :
+
+We put autocomplete input in countries, So don't care about spelling 😁
+
 # Get started
 
 clone repo from [here](https://github.com/abdulrahmanabdullah/travel-app.git)
@@ -40,5 +44,10 @@ If you want development mode with webpack run this command :
 ```
 yarn build-dev OR npm run build-dev
 ```
+
+# Testing :
+
+We use Jest library for test express route and validate date.
+check it out in _src/**test**/_
 
 ### That's it
