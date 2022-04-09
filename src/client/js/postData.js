@@ -7,5 +7,6 @@ export const sendData = async data => {
     },
     body: JSON.stringify(data),
   });
+  
   return await request.json();
 };
